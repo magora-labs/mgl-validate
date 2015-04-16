@@ -1,6 +1,7 @@
 # mgl-validate
 
 [![Build Status](https://secure.travis-ci.org/magora-labs/mgl-validate.png)](http://travis-ci.org/magora-labs/mgl-validate)
+![dependencies](https://david-dm.org/magora-labs/mgl-validate.svg)
 
 **_data object validation_**
 
