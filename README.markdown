@@ -18,7 +18,7 @@ Stability: 3 - Stable
 
 ## Testimonials
 
-_I really like the notion of adding schema and referencing them in others - that's just super-cool_
+_I really like the notion of adding a schema and referencing it in others - that's just super-cool_
 
 ## Example
 
