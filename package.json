@@ -7,6 +7,7 @@
     "schema",
     "validate"
   ],
+  "license": "MIT",
   "author": {
     "name": "Malte-Thorben Bruns",
     "email": "malte.bruns+labs@magora.com"
