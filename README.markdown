@@ -1,9 +1,21 @@
 # mgl-validate
 
+[![NPM version](https://img.shields.io/npm/v/mgl-validate.svg?style=flat-square)](https://www.npmjs.com/package/mgl-validate)
+[![downloads](https://img.shields.io/npm/dm/mgl-validate.svg?style=flat-square)](https://www.npmjs.com/package/mgl-validate)
+[![dependencies](https://david-dm.org/magora-labs/mgl-validate.svg)](https://github.com/magora-labs/mgl-validate)
+[![devDependencies](https://david-dm.org/magora-labs/mgl-validate/dev-status.svg)](https://github.com/magora-labs/mgl-validate)
 [![Build Status](https://secure.travis-ci.org/magora-labs/mgl-validate.png)](http://travis-ci.org/magora-labs/mgl-validate)
-![dependencies](https://david-dm.org/magora-labs/mgl-validate.svg)
 
 **_data object validation_**
+
+*mgl-validate* is a library for validating any variable type, including objects, arrays and primitives, as well as *mixed type* definitions.
+
+Moreover, *mgl-validate* enables the programmer to verify the validity of complex & deeply nested object structures.
+The library features defining validation **schemas** to be used as **references**, hence facilitating shared and reusable definitions upon which complex and possibly nested validation schemas can be built.
+
+Schemas are compiled at time of definition to keep performance penalties of actual validations at a minimum.
+
+
 
 ```js
 Stability: 3 - Stable
@@ -64,7 +76,7 @@ if (err) {
 
 ## Schema
 
-See `test/test-schema.js` for more examples.
+See [`tests`](./test/) for examples covering all use cases.
 
 The options are processed in the following order; `type optional value min < max < enum < pattern  properties`, where `A < B` means that `B` is only tested when `A` didn't fail.
 
