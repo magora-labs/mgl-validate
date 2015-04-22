@@ -5,7 +5,11 @@
   "keyswords": [
     "json",
     "schema",
-    "validate"
+    "validate",
+    "property",
+    "validation",
+    "object",
+    "type"
   ],
   "license": "MIT",
   "author": {
