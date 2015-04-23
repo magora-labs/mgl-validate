@@ -27,9 +27,9 @@
     "next-update": "0.7.6"
   },
   "scripts": {
-    "lint": "node_modules/.bin/eslint ./",
-    "test": "node_modules/.bin/eslint ./ && node_modules/.bin/istanbul cover node_modules/.bin/_mocha -- ./test",
-    "update": "node_modules/.bin/next-update -k",
+    "lint": "eslint ./",
+    "test": "npm run lint && istanbul cover _mocha -- ./test",
+    "update": "next-update -k",
     "clean": "rm -rf node_modules/ && rm -rf coverage/ && rm npm-debug.log"
   },
   "engines": {
