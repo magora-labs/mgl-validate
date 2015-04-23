@@ -39,6 +39,7 @@
     "indent": [2, 2],
     "key-spacing": [2, {"beforeColon": false, "afterColon": true}],
     "new-parens": 2,
+    "operator-linebreak": [2, "after"],
     "quotes": [2, "single"],
     "semi": [2, "always"],
     "space-after-keywords": [2, "always"],
