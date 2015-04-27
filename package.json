@@ -31,7 +31,8 @@
     "lint": "eslint ./",
     "test": "npm run lint && istanbul cover _mocha -- ./test",
     "update": "next-update -k",
-    "clean": "rm -rf node_modules/ && rm -rf coverage/ && rm npm-debug.log"
+    "clean": "rm -rf node_modules/ && rm -rf coverage/ && rm npm-debug.log",
+    "changelog": "changelog42 --no-author --commit-url=https://github.com/magora-labs/mgl-validate/commit"
   },
   "engines": {
     "node": ">=0.10",
