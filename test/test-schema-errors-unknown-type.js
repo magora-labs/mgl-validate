@@ -21,7 +21,7 @@ suite('schema-errors-unknown-type', function() {
       properties: []
     });
     assert(err);
-    assert.strictEqual('Unknown type \'' + unknownType + '\'', err.message);
+    assert.strictEqual('Unknown type', err.message);
   });
 
 });
