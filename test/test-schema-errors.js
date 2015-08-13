@@ -18,10 +18,31 @@ suite('schema-errors', function() {
   });
 
 
-  test('Invalid type definition', function() {
+  test('Invalid type definition #1', function() {
     var err = registry.addSchema({
       id: 'xxx',
       a: 1
+    });
+    assert(err);
+    assert.strictEqual('Invalid type definition', err.message);
+  });
+
+
+  test('Invalid type definition #2', function() {
+    var err = registry.addSchema({
+      type: 'garbage',
+      id: 'xxx',
+      a: 1
+    });
+    assert(err);
+    assert.strictEqual('Invalid type definition', err.message);
+  });
+
+
+  test('Invalid type definition #3', function() {
+    var err = registry.addSchema({
+      type: 'unknown',
+      id: 'xxx'
     });
     assert(err);
     assert.strictEqual('Invalid type definition', err.message);
