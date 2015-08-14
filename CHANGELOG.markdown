@@ -1,5 +1,14 @@
 # mgl-validate ChangeLog
 
+## 2015-08-14, [v1.0.2](https://github.com/magora-labs/mgl-validate/tree/v1.0.2) **_<small>stable</small>_**
+
+### Commits
+
+  - [[`34f873351e`](https://github.com/magora-labs/mgl-validate/commit/34f873351ee326692ad0ba492fe32b3ddc570250)] - **config**: travis uses iojs v2.5.0
+  - [[`a9a0032f0b`](https://github.com/magora-labs/mgl-validate/commit/a9a0032f0bcfa4367313ba166eb55a9d2632a914)] - **deps**: update dev dependencies
+  - [[`a4322c9c18`](https://github.com/magora-labs/mgl-validate/commit/a4322c9c18b00d2ef5cf54d9557fcc6d3347a873)] - **schema**: extend definition type validation
+
+
 ## 2015-04-16, [v1.0.1](https://github.com/magora-labs/mgl-validate/tree/v1.0.1) **_<small>stable</small>_**
 
 ### Commits
