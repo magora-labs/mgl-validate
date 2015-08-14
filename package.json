@@ -21,11 +21,11 @@
     "url": "https://github.com/magora-labs/mgl-validate.git"
   },
   "devDependencies": {
+    "changelog42": "0.6.0",
     "eslint": "0.20.0",
-    "istanbul": "0.3.13",
-    "mocha": "2.2.4",
-    "next-update": "0.7.6",
-    "changelog42": "0.5.0"
+    "istanbul": "0.3.17",
+    "mocha": "2.2.5",
+    "next-update": "0.9.2"
   },
   "scripts": {
     "lint": "eslint ./",
