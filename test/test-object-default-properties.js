@@ -9,7 +9,7 @@ suite('object-default-properties', function() {
   var registry = new Registry();
 
   test('defaults', function() {
-    var err = registry.addSchema({
+    registry.addSchema({
       id: 'restful_acns',
       type: 'object',
       properties: {
@@ -40,12 +40,11 @@ suite('object-default-properties', function() {
       }
     });
 
-    assert.strictEqual(undefined, err);
-
     var data = {};
 
-    err = registry.test('restful_acns', data);
-    assert.strictEqual(undefined, err);
+    var errors = registry.test('restful_acns', data);
+    assert(!errors);
+
     assert.strictEqual(30, data.visibilityTimeout);
     assert.strictEqual(65536, data.maximumMessageSize);
     assert.strictEqual(345600, data.messageRetentionPeriod);

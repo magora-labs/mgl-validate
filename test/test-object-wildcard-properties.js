@@ -9,7 +9,7 @@ suite('object-wildcard-properties', function() {
   var registry = new Registry();
 
   test('add "wildcard" schema', function() {
-    var err = registry.addSchema({
+    registry.addSchema({
       id: 'wildcard',
       type: 'object',
       properties: {
@@ -26,24 +26,21 @@ suite('object-wildcard-properties', function() {
         }
       }
     });
-    assert.strictEqual(undefined, err);
   });
 
 
   test('validate "wildcard"', function() {
-    var err = registry.test('wildcard', {
+    var errors = registry.test('wildcard', {
       someKey: 'OK',
       someOtherKey: -1,
       key: -34,
       notAWildcard: 10
     });
 
-    assert(err);
-    assert(err.validation);
-    assert.deepEqual([
+    assert.deepEqual(errors, [
       ['someOtherKey', 'string', 'type', -1],
       ['key', 'number', 'min', -34],
-      ['notAWildcard', 'number', 'enum', 10]
-    ], err.validation);
+      ['notAWildcard', 'number', 'value', 10]
+    ]);
   });
 });

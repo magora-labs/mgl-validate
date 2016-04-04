@@ -14,46 +14,58 @@ suite('number', function() {
 
 
   test('value 0', function() {
-    var err = registry.addSchema({
+    registry.addSchema({
       id: 'meNumber',
       type: 'object',
       properties: {
         n: 0
       }
     });
-    assert.strictEqual(undefined, err);
 
-    err = registry.test('meNumber', {n: 1});
-    assert.deepEqual([['n', 'integer', 'value', 1]], err.validation);
+    var errors = registry.test('meNumber', {n: 1});
+    assert.deepEqual(errors, [[
+      'n',
+      'integer',
+      'value',
+      1
+    ]]);
   });
 
 
   test('value 1', function() {
-    var err = registry.addSchema({
+    registry.addSchema({
       id: 'meNumber',
       type: 'object',
       properties: {
         n: 1
       }
     });
-    assert.strictEqual(undefined, err);
 
-    err = registry.test('meNumber', {n: 0});
-    assert.deepEqual([['n', 'integer', 'value', 0]], err.validation);
+    var errors = registry.test('meNumber', {n: 0});
+    assert.deepEqual(errors, [[
+      'n',
+      'integer',
+      'value',
+      0
+    ]]);
   });
 
 
   test('value -1', function() {
-    var err = registry.addSchema({
+    registry.addSchema({
       id: 'meNumber',
       type: 'object',
       properties: {
         n: -1
       }
     });
-    assert.strictEqual(undefined, err);
 
-    err = registry.test('meNumber', {n: 0});
-    assert.deepEqual([['n', 'integer', 'value', 0]], err.validation);
+    var errors = registry.test('meNumber', {n: 0});
+    assert.deepEqual(errors, [[
+      'n',
+      'integer',
+      'value',
+      0
+    ]]);
   });
 });

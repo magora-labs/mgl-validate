@@ -6,65 +6,69 @@ var Registry = require('../');
 
 
 suite('optional', function() {
+
+
   test('string', function() {
     var registry = new Registry();
 
-    var err = registry.addSchema({
+    registry.addSchema({
       id: 'number-string',
       type: 'number',
       optional: true
     });
-    assert.strictEqual(undefined, err);
 
-    err = registry.test('number-string', 'abc');
-    assert(err);
-    assert.deepEqual([
-      [null, 'number', 'type', 'abc']
-    ], err.validation);
+    var errors = registry.test('number-string', 'abc');
+    assert.deepEqual(errors, [[
+      null,
+      'number',
+      'type',
+      'abc'
+    ]]);
   });
 
 
   test('undefined', function() {
     var registry = new Registry();
 
-    var err = registry.addSchema({
+    registry.addSchema({
       id: 'string-undefined',
       type: 'string',
       optional: true
     });
-    assert.strictEqual(undefined, err);
 
-    err = registry.test('string-undefined', undefined);
-    assert.strictEqual(undefined, err);
+    var errors = registry.test('string-undefined', undefined);
+    assert(!errors);
   });
 
 
   test('number', function() {
     var registry = new Registry();
 
-    var err = registry.addSchema({
+    registry.addSchema({
       id: 'number-number',
       type: 'number',
       optional: true
     });
-    assert.strictEqual(undefined, err);
 
-    err = registry.test('number-number', 123);
-    assert.strictEqual(undefined, err);
+    var errors = registry.test('number-number', 123);
+    assert(!errors);
   });
 
 
   test('!optional number', function() {
     var registry = new Registry();
 
-    var err = registry.addSchema({
+    registry.addSchema({
       id: 'number',
       type: 'number'
     });
-    assert.strictEqual(undefined, err);
 
-    err = registry.test('number', undefined);
-    assert(err);
-    assert.deepEqual([[null, 'number', 'type', undefined]], err.validation);
+    var errors = registry.test('number', undefined);
+    assert.deepEqual(errors, [[
+      null,
+      'number',
+      'type',
+      undefined
+    ]]);
   });
 });

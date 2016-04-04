@@ -14,70 +14,74 @@ suite('string', function() {
 
 
   test('min/max', function() {
-    var err = registry.addSchema({
+    registry.addSchema({
       id: 'meString',
       type: 'string',
       min: 1,
       max: 2
     });
-    assert.strictEqual(undefined, err);
 
-    err = registry.test('meString', '1');
-    assert.strictEqual(undefined, err);
+    var errors = registry.test('meString', '1');
+    assert(!errors);
   });
 
 
   test('min', function() {
-    var err = registry.addSchema({
+    registry.addSchema({
       id: 'meString',
       type: 'string',
       min: 1
     });
-    assert.strictEqual(undefined, err);
 
-    err = registry.test('meString', '');
-    assert(err);
-    assert.deepEqual([[null, 'string', 'min', 0]], err.validation);
+    var errors = registry.test('meString', '');
+    assert.deepEqual(errors, [[null, 'string', 'min', 0]]);
   });
 
 
   test('max', function() {
-    var err = registry.addSchema({
+    registry.addSchema({
       id: 'meString',
       type: 'string',
       max: 0
     });
-    assert.strictEqual(undefined, err);
 
-    err = registry.test('meString', '1');
-    assert(err);
-    assert.deepEqual([[null, 'string', 'max', 1]], err.validation);
+    var errors = registry.test('meString', '1');
+    assert.deepEqual(errors, [[null, 'string', 'max', 1]]);
   });
 
 
   test('enum ok', function() {
-    var err = registry.addSchema({
+    registry.addSchema({
       id: 'meString',
       type: 'string',
       enum: ['1', '2']
     });
-    assert.strictEqual(undefined, err);
 
-    err = registry.test('meString', '1');
-    assert.strictEqual(undefined, err);
+    var errors = registry.test('meString', '1');
+    assert(!errors);
   });
 
 
   test('enum err', function() {
-    var err = registry.addSchema({
+    registry.addSchema({
       id: 'meString',
       type: 'string',
       enum: ['1', '2']
     });
-    assert.strictEqual(undefined, err);
 
-    err = registry.test('meString', '3');
-    assert(err);
-    assert.deepEqual([[null, 'string', 'enum', '3']], err.validation);
+    var errors = registry.test('meString', '3');
+    assert.deepEqual(errors, [[null, 'string', 'value', '3']]);
+  });
+
+
+  test('enum (single element)', function() {
+    registry.addSchema({
+      id: 'meString',
+      type: 'string',
+      enum: ['1']
+    });
+
+    var errors = registry.test('meString', '3');
+    assert.deepEqual(errors, [[null, 'string', 'value', '3']]);
   });
 });

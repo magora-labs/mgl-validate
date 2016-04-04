@@ -9,7 +9,7 @@ suite('object-property-count', function() {
   var registry = new Registry();
 
   test('minimum count', function() {
-    var err, schema = 'minobject';
+    var schema = 'minobject';
 
     registry.addSchema({
       id: schema,
@@ -18,24 +18,24 @@ suite('object-property-count', function() {
       min: 2
     });
 
-    err = registry.test(schema, {
+    var errors = registry.test(schema, {
       test: 1,
       test2: 1
     });
-    assert.strictEqual(undefined, err);
+    assert(!errors);
 
-    err = registry.test(schema, {
-      test: 1
-    });
-    assert(err.validation);
-    assert.deepEqual([
-      [null, 'object', 'min', 1]
-    ], err.validation);
+    errors = registry.test(schema, {test: 1});
+    assert.deepEqual(errors, [[
+      null,
+      'object',
+      'min',
+      1
+    ]]);
   });
 
 
   test('maximum count', function() {
-    var err, schema = 'maxobject';
+    var schema = 'maxobject';
 
     registry.addSchema({
       id: schema,
@@ -44,26 +44,27 @@ suite('object-property-count', function() {
       max: 2
     });
 
-    err = registry.test(schema, {
+    var errors = registry.test(schema, {
       test: 1
     });
-    assert.strictEqual(undefined, err);
+    assert(!errors);
 
-    err = registry.test(schema, {
+    errors = registry.test(schema, {
       test: 1,
       test2: 1
     });
-    assert.strictEqual(undefined, err);
+    assert(!errors);
 
-    err = registry.test(schema, {
+    errors = registry.test(schema, {
       test: 1,
       test2: 1,
       test3: 'thats too much'
     });
-
-    assert(err.validation);
-    assert.deepEqual([
-      [null, 'object', 'max', 3]
-    ], err.validation);
+    assert.deepEqual(errors, [[
+      null,
+      'object',
+      'max',
+      3
+    ]]);
   });
 });

@@ -1,5 +1,15 @@
 # mgl-validate ChangeLog
 
+## 2016-04-04, [v2.0.0](https://github.com/magora-labs/mgl-validate/tree/v2.0.0) **_<small>stable</small>_**
+
+### Notable Changes
+
+  * Validation errors are returned without an error object, **all other errors are immediately thrown!**
+  * The **enum** option has been refactored and introduces a new **ordered** option flag for more versatile **array** validation
+    * Validation errors for the `enum` option now state `'value'` instead of `'enum'` as reason
+    * Primitives only allow primitives of the the same type as elements of an array
+  * Support for **recursive & self-registering schemas** has been added
+
 ## 2015-08-14, [v1.0.2](https://github.com/magora-labs/mgl-validate/tree/v1.0.2) **_<small>stable</small>_**
 
 ### Commits

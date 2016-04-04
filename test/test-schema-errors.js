@@ -9,130 +9,204 @@ suite('schema-errors', function() {
   var registry = new Registry();
 
 
-  test('Invalid schema id', function() {
-    var err = registry.addSchema({
-      a: 1
-    });
-    assert(err);
-    assert.strictEqual('Invalid schema id', err.message);
-  });
-
-
   test('Invalid type definition #1', function() {
-    var err = registry.addSchema({
-      id: 'xxx',
-      a: 1
+    assert.throws(function() {
+      registry.addSchema({id: 'xxx', a: 1});
+    }, function(err) {
+      assert.strictEqual('Invalid type definition', err.message);
+      return true;
     });
-    assert(err);
-    assert.strictEqual('Invalid type definition', err.message);
   });
 
 
   test('Invalid type definition #2', function() {
-    var err = registry.addSchema({
-      type: 'garbage',
-      id: 'xxx',
-      a: 1
+    assert.throws(function() {
+      registry.addSchema({
+        type: 'garbage',
+        id: 'xxx',
+        a: 1
+      });
+    }, function(err) {
+      assert.strictEqual('Invalid type definition', err.message);
+      return true;
     });
-    assert(err);
-    assert.strictEqual('Invalid type definition', err.message);
   });
 
 
   test('Invalid type definition #3', function() {
-    var err = registry.addSchema({
-      type: 'unknown',
-      id: 'xxx'
+    assert.throws(function() {
+      registry.addSchema({
+        type: 'unknown',
+        id: 'xxx'
+      });
+    }, function(err) {
+      assert.strictEqual('Invalid type definition', err.message);
+      return true;
     });
-    assert(err);
-    assert.strictEqual('Invalid type definition', err.message);
   });
 
 
   test('Unknown reference schema "unknown"', function() {
-    var err = registry.addSchema({
-      id: 'xxx',
-      type: 'object',
-      properties: {
-        a: '$id:unknown'
-      }
+    assert.throws(function() {
+      registry.addSchema({
+        id: 'xxx',
+        type: 'object',
+        properties: {
+          a: '$id:unknown'
+        }
+      });
+    }, function(err) {
+      assert.strictEqual('Unknown reference schema "unknown"', err.message);
+      return true;
     });
-    assert(err);
-    assert.strictEqual('Unknown reference schema "unknown"', err.message);
   });
 
 
   test('Invalid properties definition', function() {
-    var err = registry.addSchema({
-      id: 'xxx',
-      type: 'object',
-      properties: []
+    assert.throws(function() {
+      registry.addSchema({
+        id: 'xxx',
+        type: 'object',
+        properties: []
+      });
+    }, function(err) {
+      assert.strictEqual('Invalid properties definition', err.message);
+      return true;
     });
-    assert(err);
-    assert.strictEqual('Invalid properties definition', err.message);
   });
 
 
   test('Invalid schema definition', function() {
-    var err = registry.addSchema({
-      id: 'xxx',
-      type: 'object',
-      properties: {
-        xxx: []
-      }
+    assert.throws(function() {
+      registry.addSchema({
+        id: 'xxx',
+        type: 'object',
+        properties: {
+          xxx: []
+        }
+      });
+    }, function(err) {
+      assert.strictEqual('Invalid schema definition', err.message);
+      return true;
     });
-    assert(err);
-    assert.strictEqual('Invalid schema definition', err.message);
   });
 
 
-  test('Mixed values in enum definition', function() {
-    var err = registry.addSchema({
-      id: 'xxx',
-      type: 'string',
-      enum: ['abc', 1, 2]
+  test('Invalid enum element type', function() {
+    assert.throws(function() {
+      registry.addSchema({
+        id: 'xxx',
+        type: 'string',
+        enum: ['abc', 1, 2]
+      });
+    }, function(err) {
+      assert.strictEqual('Invalid enum element type', err.message);
+      return true;
     });
-    assert(err);
-    assert.strictEqual('Mixed values in enum definition', err.message);
-  });
-
-
-  test('Non-primitive values in enum definition', function() {
-    var err = registry.addSchema({
-      id: 'xxx',
-      type: 'string',
-      enum: [{}, 'abc', 2]
-    });
-    assert(err);
-    assert.strictEqual('Non-primitive values in enum definition', err.message);
   });
 
 
   test('Invalid enum definition', function() {
-    var err = registry.addSchema({
-      id: 'xxx',
-      type: 'string',
-      enum: true
+    assert.throws(function() {
+      registry.addSchema({
+        id: 'xxx',
+        type: 'string',
+        enum: true
+      });
+    }, function(err) {
+      assert.strictEqual('Invalid enum definition', err.message);
+      return true;
     });
-    assert(err);
-    assert.strictEqual('Invalid enum definition', err.message);
   });
 
 
   test('Invalid enum definition # type = mixed', function() {
-    var err = registry.addSchema({
-      id: 'xxx',
-      type: 'mixed',
-      enum: 'xxx'
+    assert.throws(function() {
+      registry.addSchema({
+        id: 'xxx',
+        type: 'mixed',
+        enum: 'xxx'
+      });
+    }, function(err) {
+      assert.strictEqual('Invalid enum definition', err.message);
+      return true;
     });
-    assert(err);
-    assert.strictEqual('Invalid enum definition', err.message);
   });
 
 
   test('Unknown schema "unknown"', function() {
-    var err = registry.removeSchema('unknown');
-    assert(err);
-    assert.strictEqual('Unknown schema "unknown"', err.message);
+    assert.throws(function() {
+      registry.removeSchema('unknown');
+    }, function(err) {
+      assert.strictEqual('Unknown schema "unknown"', err.message);
+      return true;
+    });
+  });
+
+
+  test('Invalid enum element type #1', function() {
+    assert.throws(function() {
+      registry.addSchema({
+        id: 'erroneous',
+        type: 'string',
+        enum: ['a', 2]
+      });
+    }, function(err) {
+      assert.strictEqual('Invalid enum element type', err.message);
+      return true;
+    });
+  });
+
+
+  test('Invalid enum element type #2', function() {
+    assert.throws(function() {
+      registry.addSchema({
+        id: 'erroneous',
+        type: 'string',
+        enum: [2]
+      });
+    }, function(err) {
+      assert.strictEqual('Invalid enum element type', err.message);
+      return true;
+    });
+  });
+
+
+  test('Invalid enum definition', function() {
+    assert.throws(function() {
+      registry.addSchema({
+        id: 'erroneous',
+        type: 'array',
+        enum: 1
+      });
+    }, function(err) {
+      assert.strictEqual('Invalid enum definition', err.message);
+      return true;
+    });
+  });
+
+
+  test('Invalid schema id', function() {
+    assert.throws(function() {
+      registry.addSchema({
+        id: 2,
+        type: 'array'
+      });
+    }, function(err) {
+      assert.strictEqual('Invalid schema id', err.message);
+      return true;
+    });
+  });
+
+
+  test('Missing schema id', function() {
+    assert.throws(function() {
+      registry.addSchema({
+        type: 'array'
+      });
+    }, function(err) {
+      assert.strictEqual('Missing schema id', err.message);
+      return true;
+    });
   });
 });

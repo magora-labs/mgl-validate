@@ -14,44 +14,89 @@ suite('array', function() {
 
 
   test('min/max', function() {
-    var err = registry.addSchema({
+    registry.addSchema({
       id: 'meArray',
       type: 'array',
       min: 1,
       max: 2
     });
-    assert.strictEqual(undefined, err);
 
-    err = registry.test('meArray', [1, 2]);
-    assert.strictEqual(undefined, err);
+    var errors = registry.test('meArray', [1, 2]);
+    assert(!errors);
   });
 
 
   test('min', function() {
-    var err = registry.addSchema({
+    registry.addSchema({
       id: 'meArray',
       type: 'array',
       min: 2
     });
-    assert.strictEqual(undefined, err);
 
-    err = registry.test('meArray', [1]);
-    assert(err);
-    assert.deepEqual([[null, 'array', 'min', 1]], err.validation);
+    var errors = registry.test('meArray', [1]);
+
+    assert.deepEqual(errors, [[
+      null,
+      'array',
+      'min',
+      1
+    ]]);
   });
 
 
   test('max', function() {
-    var err = registry.addSchema({
+    registry.addSchema({
       id: 'meArray',
       type: 'array',
       max: 2
     });
-    assert.strictEqual(undefined, err);
+
+    var errors = registry.test('meArray', [1, 2, 3]);
+
+    assert.deepEqual(errors, [[
+      null,
+      'array',
+      'max',
+      3
+    ]]);
+  });
 
 
-    err = registry.test('meArray', [1, 2, 3]);
-    assert(err);
-    assert.deepEqual([[null, 'array', 'max', 3]], err.validation);
+  test('enum', function() {
+    registry.addSchema({
+      id: 'meArray',
+      type: 'array',
+      enum: [1, 2, 3]
+    });
+
+    var errors = registry.test('meArray', [3, 1, 2]);
+    assert(!errors);
+  });
+
+
+  test('enum/ordered', function() {
+    registry.addSchema({
+      id: 'meArray',
+      type: 'array',
+      enum: [1, 2, 3],
+      ordered: true
+    });
+
+    registry.test('meArray', [1, 2, 3]);
+
+    var errors = registry.test('meArray', [3, 1, '2']);
+
+    assert.deepEqual(errors, [
+      ['0', 'integer', 'value', 3],
+      ['1', 'integer', 'value', 1],
+      ['2', 'integer', 'type', '2']
+    ]);
+
+    errors = registry.test('meArray', [3, 2, 1]);
+
+    assert.deepEqual(errors, [
+      ['0', 'integer', 'value', 3],
+      ['2', 'integer', 'value', 1]
+    ]);
   });
 });

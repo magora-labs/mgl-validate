@@ -16,7 +16,6 @@ The library features defining validation **schemas** to be used as **references*
 Schemas are compiled at time of definition to keep performance penalties of actual validations at a minimum.
 
 
-
 ```js
 Stability: 3 - Stable
 ```
@@ -36,111 +35,125 @@ _I really like the notion of adding a schema and referencing it in others - that
 ## Example
 
 ```js
-var err, registry = require('mgl-validate')({
+var registry = require('mgl-validate')({
   breakOnError: true
 });
 
-// create 1st schema
-err = registry.addSchema({
-  id: 'uuid',
-  type: 'string',
-  pattern: '[a-f\\d]{8}(-[a-f\\d]{4}){3}-[a-f\\d]{12}'
-});
-
-if (err) {
-  console.log(err.message);
+try {
+  // create a nested schema
+  registry.addSchema({
+    id: 'doc',
+    type: 'object',
+    properties: {
+      ref: {
+        id: 'uuid',
+        type: 'string',
+        pattern: '[a-f\\d]{8}(-[a-f\\d]{4}){3}-[a-f\\d]{12}'
+      }
+    }
+  });
+} catch (err) {
+  return console.log(err.message);
 }
 
-// create 2nd schema (referencing the 1st)
-err = registry.addSchema({
-  id: 'doc',
-  type: 'object',
-  properties: {
-    id: '$id:uuid'
-  }
-});
+var errors;
 
-if (err) {
-  console.log(err.message);
+// validate against 'doc'
+errors = registry.test('doc', {ref: 'THIS-IS-NOT-AN-UUID'});
+if (errors) {
+  console.log(errors);
 }
 
-// validate
-err = registry.test('doc', {id: 'THIS-IS-NOT-AN-UUID'});
-
-if (err) {
-  console.log(err.validation);
+// ... or validate directly against 'uuid'
+errors = registry.test('uuid', 'THIS-IS-NOT-AN-UUID');
+if (errors) {
+  console.log(errors);
 }
 ```
 
 [back to top](#table-of-contents)
 
-## Schema
+## Types
 
+  - `null`
+  - `boolean`
+  - `number`
+  - `integer` - validates as `number` too
+  - `string`
+  - `array`
+  - `object`
+  - `buffer`
+  - `function`
+  - `mixed`
+
+## Schema
 See [`tests`](./test/) for examples covering all use cases.
 
-The options are processed in the following order; `type optional value min < max < enum < pattern  properties`, where `A < B` means that `B` is only tested when `A` didn't fail.
+The options are processed in the following order; `type optional value min < max < enum < pattern properties`, where `A < B` means that `B` is only tested when `A` didn't fail.
 
+**properties**
 
-### id
-A string for later reference.
-
-### type
-See `lib/types.js` for details.
-
- - `null`
- - `boolean`
- - `number`
- - `integer` - validates as `number` too
- - `string`
- - `array`
- - `object`
- - `buffer`
- - `function`
- - `mixed`
+  * `{?string=} id` - The schema id, when given the schema can be referenced
+  * `{string} type` - The data type; See [Types](#types)
+  * `{?number=} depth` - Absolute nesting limit for validated data, defaults to `10`
+  * `{?boolean=} optional` - When `true`, the value may be `undefined`
+  * `{?*=} default` - A default value, implies `optional: true`
+  * `{?string=} pattern` - An encoded regular-expression for string validation
+  * `{?string=} flags` - Regular-expression flags
+  * `{?number=} min` - Minimum number _of chars, elements, properties, arguments_
+  * `{?number=} max` - Maximum number _of chars, elements, properties, arguments_
+  * `{?Object<string, (Object|string)>=} properties` - A map with schemas for each property of an object
+  * `{?boolean=} allowUnknownProperties` - When `true`, an object may contain properties that don't have a schema
+  * `{?(Array|Object|string)=} enum` - Validate values against given primitives and/or schemas
+  * `{?boolean=} ordered` - When `true`, an array is matched against `enum` in order
 
 ### enum
-An array with non-mixed primitive values
+Validate values against given values and/or schemas.
+
+  NOTE: The most likely values should be placed at the top of the enum array to improve validation performance.
 
 **Types:** `number`, `integer`, `string`, `array`, `mixed`
 
+#### Primitives
+Primitive data types can be validated against a list of static values of their own type;
+
 ```js
-{ type: 'number',
+{ type: 'number', // or 'integer' or 'string'
   enum: [1, 2, 3]
 }
 ```
 
-... a single schema object
+#### `type: array`
+Arrays support multiple combinations for `enum`;
 
-```js
-{ type: 'string',
-  enum: {
-    type: 'string',   // seems superfluous, but is required
-    pattern: '[a-f\\d]{8}(-[a-f\\d]{4}){3}-[a-f\\d]{12}'
-  }
-}
-```
-
-... a reference
+_... a single schema_, either as reference (`$id:<name>`) or object. All elements in the array now have to comply to the given schema.
 
 ```js
 { type: 'array',
-  enum: '$id:schemaA'
+  enum: '$id:uuid'
 }
 ```
 
-... or an array of definitions when `type: 'mixed'`.
+_... an array of schemas and/or primitives_. Any element in the array has to comply to any of the supplied schemas. When `ordered: true`, the elements of the array have to comply to the given schemas in order.
 
 ```js
-{ type: 'mixed',
-  enum: [             // Values will be checked against given schema in order.
-    '$id:schemaA',    //   Put the most likely at the top!
-    '$id:schemaB',
-    {
-      type: 'integer'
-    }
+{ type: 'array',
+  ordered: true,
+  enum: [
+    '$id:uuid',
+    false,
+    {type: 'integer'}
   ]
 }
 ```
+
+_In the above example the 2nd, 5th, 8th, ... element of any array has to be `false` in order to pass the test_
+
+Validation restarts at the first element of the given `enum` if the number of elements t.b. validated exceeds the given schemas.
+This behaviour can be further controlled with the `min` and `max` options.
+
+#### `type: mixed`
+`enum` for `type: mixed` works exactly like for `type: array` with an array of schemas and/or primitives, but in respect to a single value.
 
 ### properties
 An object with properties where each value is a primitive value, schema object or reference.
@@ -160,8 +173,7 @@ An object with properties where each value is a primitive value, schema object o
 }
 ```
 
-
-### property wildcard
+#### wildcard
 
 **Types:** `object`
 
@@ -197,9 +209,7 @@ A string to be used for `new RegExp()`.
 
 **Types:** `string`
 
-
-### flags
-See `pattern`.
+#### flags
 
 **Types:** `string`
 
@@ -233,7 +243,8 @@ Defaults to `true` for `function` and to `false` for `object`.
 #### new Registry(opt_options)
 
  * `{?Object=} opt_options`
-   * `{boolean} breakOnError` - defaults to `false`
+   * `{?boolean=} breakOnError` - defaults to `false`
+   * `{?number=} depth` - Global nesting limit, defaults to `10`. Can be overridden by each schema
 
 #### registry.breakOnError
 
@@ -250,26 +261,24 @@ See `schema.test()`.
 #### new Schema(registry, definition)
 
 #### schema.test(data)
-Returns an `Error` on failed validation.
+Validate given data, returns validation errors as array, `null` otherwise.
 
-An annotated example error;
+An annotated example;
 
 ```js
-{ message: 'Validation failed',
-  validation: [
-    [<pathToValue>, <expectedType>, <reason>, <offendingValue>],
+[
+  [<pathToValue>, <expectedType>, <reason>, <offendingValue>],
 
-    // property b of object a is undefined
-    ['a', 'object', 'undefined', 'b'],
+  // property b of object a is undefined
+  ['a', 'object', 'undefined', 'b'],
 
-    // property c of object a is not of type string
-    ['a.c', 'string', 'type', 2],
+  // property c of object a is not of type string
+  ['a.c', 'string', 'type', 2],
 
-    // property e of the 1st element of the array at property d of object a is too small
-    ['a.d.0.e', 'number', 'min', -1],
-    ...
-  ]
-}
+  // property e of the 1st element of the array at property d of object a is too small
+  ['a.d.0.e', 'number', 'min', -1],
+  ...
+]
 ```
 
 #### schema.typeOf(value)
@@ -286,10 +295,10 @@ firefox coverage/lcov-report/index.html
 ### Coverage
 
 ```
-Statements   : 99.66% ( 290/291 )
-Branches     : 99.10% ( 221/223 )
+Statements   : 100% ( 321/321 ), 1 ignored
+Branches     : 99.6% ( 250/251 ), 2 ignored
 Functions    : 100% ( 21/21 )
-Lines        : 99.66% ( 290/291 )
+Lines        : 100% ( 321/321 )
 ```
 
 [back to top](#table-of-contents)

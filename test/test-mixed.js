@@ -8,15 +8,8 @@ var Registry = require('../');
 suite('mixed', function() {
   var registry = new Registry();
 
-  test('mixed', function() {
-    var err = registry.addSchema({
-      id: 'uuid',
-      type: 'string',
-      pattern: '[a-f\\d]{8}(-[a-f\\d]{4}){3}-[a-f\\d]{12}'
-    });
-    assert.strictEqual(undefined, err);
-
-    err = registry.addSchema({
+  test('enum', function() {
+    registry.addSchema({
       id: 'mixed',
       type: 'mixed',
       enum: [
@@ -25,7 +18,11 @@ suite('mixed', function() {
           min: 2,
           max: 2
         },
-        '$id:uuid',
+        {
+          id: 'uuid',
+          type: 'string',
+          pattern: '[a-f\\d]{8}(-[a-f\\d]{4}){3}-[a-f\\d]{12}'
+        },
         {
           type: 'object',
           properties: {
@@ -39,28 +36,25 @@ suite('mixed', function() {
         }
       ]
     });
-    assert.strictEqual(undefined, err);
 
-    /*eslint-disable no-unused-vars */
-    err = registry.test('mixed', function(a, b) { /* empty */ });
-    /*eslint-enable no-unused-vars */
+    /* eslint-disable no-unused-vars */
+    var errors = registry.test('mixed', function(a, b) { /* empty */ });
+    /* eslint-enable no-unused-vars */
+    assert(!errors);
 
-    assert.strictEqual(undefined, err);
+    errors = registry.test('mixed', 'c71960cc-d90c-4ac9-91f2-abb0f29543ac');
+    assert(!errors);
 
-    err = registry.test('mixed', 'c71960cc-d90c-4ac9-91f2-abb0f29543ac');
-    assert.strictEqual(undefined, err);
-
-    err = registry.test('mixed', 'xxx');
-    assert(err);
-    assert.deepEqual([
+    errors = registry.test('mixed', 'xxx');
+    assert.deepEqual(errors, [
       ['*', 'function', 'type', 'xxx'],
       ['*', 'string', 'pattern', 'xxx'],
       ['*', 'object', 'type', 'xxx']
-    ], err.validation);
+    ]);
 
-    err = registry.test('mixed', {
+    errors = registry.test('mixed', {
       whateva: 'c71960cc-d90c-4ac9-91f2-abb0f29543ac'
     });
-    assert.strictEqual(undefined, err);
+    assert(!errors);
   });
 });
