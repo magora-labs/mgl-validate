@@ -14,36 +14,36 @@ suite('dictionary', function() {
   });
 
 
-  test('min/max', function() {
+  test('render', function() {
     var schema = registry.addSchema({
       id: 'options',
       type: 'object',
+      describe: 'Virtual device configuration',
       properties: {
-        access: {           // {Object} access
+        access: {
           type: 'object',
+          describe: 'foreign device access, see `device._access()`',
           properties: {
-            '*': {          //   {Array<string>} *
+            '*': {
               type: 'array',
               min: 1,
-              enum: {
-                type: 'string'
-              }
+              enum: {type: 'string'}
             }
           },
           optional: true
         },
         observe: {
           type: 'array',
-          enum: {           // {Array<Array<string, string, string(, Array<string>)>>}
+          enum: {
             type: 'array',
             min: 3,
             max: 4,
             ordered: true,
             enum: [
-              {type: 'string'},
-              {type: 'string'},
-              {type: 'string'},
-              {type: 'array', enum: {type: 'string'}}
+              {type: 'string', describe: 'The device name'},
+              {type: 'string', describe: 'The device state', enum: ['UNDEF', 'CHANGED', 'DEF']},
+              {type: 'string', describe: 'The internal command to generate'},
+              {type: 'array', describe: 'Device type filters', enum: {type: 'string'}}
             ]
           },
           optional: true
@@ -65,9 +65,6 @@ suite('dictionary', function() {
       }
     });
 
-    var x = Registry.dictionary(schema);
-    // console.log(JSON.stringify(x, null, 2));
-
-    x.print();
+    Registry.dictionary(schema, 'options');
   });
 });
