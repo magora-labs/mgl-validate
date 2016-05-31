@@ -22,7 +22,7 @@
   },
   "devDependencies": {
     "changelog42": "0.9.0",
-    "eslint": "2.5.3",
+    "eslint": "2.11.1",
     "istanbul": "0.4.2",
     "mocha": "2.4.5"
   },
