@@ -1,6 +1,6 @@
 {
   "name": "mgl-validate",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "data object validation",
   "keyswords": [
     "json",
@@ -29,7 +29,7 @@
   "scripts": {
     "lint": "eslint ./",
     "test": "npm run lint && istanbul cover _mocha -- ./test",
-    "clean": "rm -rf node_modules/ && rm -rf coverage/ && rm npm-debug.log",
-    "changelog": "changelog42 --no-author --commit-url=https://github.com/magora-labs/mgl-validate/commit"
+    "log": "changelog42 --no-author --commit-url=https://github.com/magora-labs/mgl-validate/commit",
+    "clean": "rm -rf node_modules/ && rm -rf coverage/ && rm npm-debug.log"
   }
 }

@@ -1,5 +1,16 @@
 # mgl-validate ChangeLog
 
+## 2016-07-12, [v2.0.1](https://github.com/magora-labs/mgl-validate/tree/v2.0.1) **_<small>stable</small>_**
+
+### Commits
+
+  - [[`bac74ddb7e`](https://github.com/magora-labs/mgl-validate/commit/bac74ddb7e8de314ba66061885fe7e8b583fcb2c)] - **deps**: mocha 2.5.3
+  - [[`afddc25b31`](https://github.com/magora-labs/mgl-validate/commit/afddc25b318db66379d662cb090c0cd12514c5ba)] - **deps**: istanbul 0.4.3
+  - [[`97f335920d`](https://github.com/magora-labs/mgl-validate/commit/97f335920d7aebc2004ce1d94383091e5607c4aa)] - **deps**: eslint 2.11.1
+  - [[`611a93f91c`](https://github.com/magora-labs/mgl-validate/commit/611a93f91c7cc8fbf82acd346888e9093da6a3a4)] - **doc**: add Christian Steininger to AUTHORS
+  - [[`fcd7bcaa82`](https://github.com/magora-labs/mgl-validate/commit/fcd7bcaa828a37c872dce1c417118d1defd11918)] - **schema**: fix breakOnError option for array & mixed types
+
+
 ## 2016-04-04, [v2.0.0](https://github.com/magora-labs/mgl-validate/tree/v2.0.0) **_<small>stable</small>_**
 
 ### Notable Changes

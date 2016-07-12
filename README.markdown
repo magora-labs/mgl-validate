@@ -296,7 +296,7 @@ firefox coverage/lcov-report/index.html
 
 ```
 Statements   : 100% ( 321/321 ), 1 ignored
-Branches     : 99.6% ( 250/251 ), 2 ignored
+Branches     : 99.6% ( 252/253 ), 2 ignored
 Functions    : 100% ( 21/21 )
 Lines        : 100% ( 321/321 )
 ```
