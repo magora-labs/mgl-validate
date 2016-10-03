@@ -22,9 +22,9 @@
   },
   "devDependencies": {
     "changelog42": "0.9.0",
-    "eslint": "2.11.1",
-    "istanbul": "0.4.3",
-    "mocha": "2.5.3"
+    "eslint": "3.6.1",
+    "nyc": "8.3.0",
+    "mocha": "3.1.0"
   },
   "scripts": {
     "lint": "eslint ./",
