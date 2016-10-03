@@ -1,5 +1,14 @@
 # mgl-validate ChangeLog
 
+## 2016-10-03, [v2.1.0](https://github.com/magora-labs/mgl-validate/tree/v2.1.0) **_<small>stable</small>_**
+
+### Commits
+
+  - [[`85f9f4a974`](https://github.com/magora-labs/mgl-validate/commit/85f9f4a9743dbe662e477f39c29302deae991889)] - **deps**: eslint v3.6.1, nyc v8.3.0, mocha v3.1.0
+  - [[`9f2e0466a2`](https://github.com/magora-labs/mgl-validate/commit/9f2e0466a2a046c996d18f494e598d40cb1b8372)] - **package**: update scripts
+  - [[`a3e31b7338`](https://github.com/magora-labs/mgl-validate/commit/a3e31b733896e18f812aadb313c4f38316f43b28)] - **schema**: add `allowNullValue` property
+
+
 ## 2016-07-12, [v2.0.1](https://github.com/magora-labs/mgl-validate/tree/v2.0.1) **_<small>stable</small>_**
 
 ### Commits
