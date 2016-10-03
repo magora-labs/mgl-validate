@@ -28,8 +28,8 @@
   },
   "scripts": {
     "lint": "eslint ./",
-    "test": "npm run lint && istanbul cover _mocha -- ./test",
+    "test": "npm run lint && nyc --reporter=lcov --reporter=text --reporter=text-summary _mocha ./test/test-*.js",
     "log": "changelog42 --no-author --commit-url=https://github.com/magora-labs/mgl-validate/commit",
-    "clean": "rm -rf node_modules/ && rm -rf coverage/ && rm npm-debug.log"
+    "clean": "rm -rf node_modules/ && rm -rf coverage/ && rm -rf .nyc_output/ && rm -f npm-debug.log"
   }
 }
