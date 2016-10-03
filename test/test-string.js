@@ -84,4 +84,17 @@ suite('string', function() {
     var errors = registry.test('meString', '3');
     assert.deepEqual(errors, [[null, 'string', 'value', '3']]);
   });
+
+
+  test('allowNullValue', function() {
+    registry.addSchema({
+      id: 'meString',
+      type: 'string',
+      enum: ['1'],
+      allowNullValue: true
+    });
+
+    var errors = registry.test('meString', null);
+    assert(!errors);
+  });
 });

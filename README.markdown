@@ -106,6 +106,7 @@ The options are processed in the following order; `type optional value min < max
   * `{?boolean=} allowUnknownProperties` - When `true`, an object may contain properties that don't have a schema
   * `{?(Array|Object|string)=} enum` - Validate values against given primitives and/or schemas
   * `{?boolean=} ordered` - When `true`, an array is matched against `enum` in order
+  * `{?boolean=} allowNullValue` - When `true`, the affected schema's value may be `null`
 
 ### enum
 Validate values against given values and/or schemas.
@@ -295,10 +296,10 @@ firefox coverage/lcov-report/index.html
 ### Coverage
 
 ```
-Statements   : 100% ( 321/321 ), 1 ignored
-Branches     : 99.6% ( 252/253 ), 2 ignored
+Statements   : 99.37% ( 317/319 )
+Branches     : 97.74% ( 260/266 )
 Functions    : 100% ( 21/21 )
-Lines        : 100% ( 321/321 )
+Lines        : 99.37% ( 317/319 )
 ```
 
 [back to top](#table-of-contents)

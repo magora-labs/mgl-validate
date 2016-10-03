@@ -99,4 +99,29 @@ suite('array', function() {
       ['2', 'integer', 'value', 1]
     ]);
   });
+
+
+  test('allowNullValue', function() {
+    registry.addSchema({
+      id: 'meArray',
+      type: 'array',
+      min: 2,
+      allowNullValue: true
+    });
+
+    var errors = registry.test('meArray', null);
+    assert(!errors);
+
+
+    registry.addSchema({
+      id: 'me2Array',
+      type: 'array',
+      min: 2
+    });
+
+    errors = registry.test('me2Array', null);
+    assert.deepEqual(errors, [
+      [null, 'array', 'type', null]
+    ]);
+  });
 });

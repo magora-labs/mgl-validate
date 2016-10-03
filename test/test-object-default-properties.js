@@ -50,4 +50,18 @@ suite('object-default-properties', function() {
     assert.strictEqual(345600, data.messageRetentionPeriod);
     assert.strictEqual(0, data.delay);
   });
+
+
+  test('allowNullValue', function() {
+    registry.addSchema({
+      id: 'foobar',
+      type: 'object',
+      allowUnknownProperties: true,
+      min: 2,
+      allowNullValue: true
+    });
+
+    var errors = registry.test('foobar', null);
+    assert(!errors);
+  });
 });

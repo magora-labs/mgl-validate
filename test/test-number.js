@@ -68,4 +68,19 @@ suite('number', function() {
       0
     ]]);
   });
+
+
+  test('allowNullValue', function() {
+    registry.addSchema({
+      id: 'meNumber',
+      type: 'object',
+      properties: {
+        n: 0
+      },
+      allowNullValue: true
+    });
+
+    var errors = registry.test('meNumber', null);
+    assert(!errors);
+  });
 });
