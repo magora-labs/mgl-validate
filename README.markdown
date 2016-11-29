@@ -154,7 +154,7 @@ Validation restarts at the first element of the given `enum` if the number of el
 This behaviour can be further controlled with the `min` and `max` options.
 
 #### `type: mixed`
-`enum` for `type: mixed` works exactly like for `type: array` with an array of schemas and/or primitives, but in respect to a single value.
+`enum` for `type: mixed` works exactly like for `type: array` with an array of schemas and/or primitives, but with respect to a single value.
 
 ### properties
 An object with properties where each value is a primitive value, schema object or reference.
